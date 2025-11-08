@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>CS405 Project 1 – Transformations, Viewing & Projection</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root { color-scheme: dark; }
+    body { margin: 0; background: #111; color: #eee; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
+    #ui {
+      position: fixed; top: 10px; left: 10px; z-index: 10;
+      background: rgba(0,0,0,.5); padding: 12px 14px; border-radius: 10px;
+      backdrop-filter: blur(6px); border: 1px solid rgba(255,255,255,.06);
+      max-width: 380px; line-height: 1.25;
+    }
+    #ui h3 { margin: 0 0 8px 0; font-size: 16px; font-weight: 700; }
+    #ui label { display: inline-block; margin: 6px 0 2px; font-size: 13px; }
+    #ui input[type="range"] { width: 220px; vertical-align: middle; margin-left: 6px; }
+    #ui .row { display: flex; align-items: center; gap: 8px; }
+    #ui .val { width: 54px; text-align: right; opacity: .9; font-variant-numeric: tabular-nums; }
+    #ui hr { margin: 10px 0; border: none; height: 1px; background: rgba(255,255,255,.12); }
+    #resetBtn {
+      margin-top: 6px; padding: 6px 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,.15);
+      background: rgba(255,255,255,.06); color: #eee; cursor: pointer;
+    }
+    canvas { display: block; width: 100vw; height: 100vh; }
+  </style>
+</head>
+<body>
+  <div id="ui" role="group" aria-label="TRS, Viewing/Projection and Bezier Controls">
+    <h3>CS405 Project 1 – TRS Controls</h3>
+
+    <div class="row">
+      <label for="tx">Translate X</label>
+      <input id="tx" type="range" min="-1" max="1" step="0.01" value="0" />
+      <span id="txv" class="val">0.00</span>
+    </div>
+
+    <div class="row">
+      <label for="ty">Translate Y</label>
+      <input id="ty" type="range" min="-1" max="1" step="0.01" value="0" />
+      <span id="tyv" class="val">0.00</span>
+    </div>
+
+    <div class="row">
+      <label for="tz">Translate Z</label>
+      <input id="tz" type="range" min="-1.5" max="1.5" step="0.01" value="0" />
+      <span id="tzv" class="val">0.00</span>
+    </div>
+
+    <div class="row">
+      <label for="rz">Rotate Z (deg)</label>
+      <input id="rz" type="range" min="-180" max="180" step="1" value="0" />
+      <span id="rzv" class="val">0°</span>
+    </div>
+
+    <div class="row">
+      <label for="sx">Scale X</label>
+      <input id="sx" type="range" min="0.1" max="2" step="0.01" value="1" />
+      <span id="sxv" class="val">1.00</span>
+    </div>
+
+    <div class="row">
+      <label for="sy">Scale Y</label>
+      <input id="sy" type="range" min="0.1" max="2" step="0.01" value="1" />
+      <span id="syv" class="val">1.00</span>
+    </div>
+
+    <div style="margin-top:6px;">
+      <label><input id="anim" type="checkbox" /> Animate Rotation</label>
+    </div>
+
+    <button id="resetBtn" type="button">Reset</button>
+
+    <hr />
+    <h3 style="margin-top:2px;">Viewing & Projection</h3>
+
+    <div class="row">
+      <label for="fov">FOV (deg)</label>
+      <input id="fov" type="range" min="30" max="100" step="1" value="60" />
+      <span id="fovv" class="val">60°</span>
+    </div>
+
+    <div style="margin-top:6px;">
+      <label><input id="usePerspective" type="checkbox" checked />
+        Use Perspective (uncheck = Orthographic)
+      </label>
+    </div>
+
+    <div style="margin-top:4px;">
+      <label><input id="bypassVP" type="checkbox" />
+        Bypass View/Projection (draw in clip-space)
+      </label>
+    </div>
+
+    <!-- NEW: Frustum toggle -->
+    <div style="margin-top:4px;">
+      <label><input id="showFrustum" type="checkbox" checked />
+        Show Frustum (near–far wireframe)
+      </label>
+    </div>
+
+    <hr />
+    <h3 style="margin-top:2px;">Bezier</h3>
+
+    <div style="margin-top:6px;">
+      <label><input id="showBezier" type="checkbox" checked />
+        Show Cubic Bézier
+      </label>
+    </div>
+    <div style="margin-top:4px;">
+      <label><input id="bezierAnim" type="checkbox" />
+        Animate point on curve
+      </label>
+    </div>
+  </div>
+
+  <canvas id="glcanvas"></canvas>
+
+  <script src="js/math.js"></script>
+  <script src="js/transforms.js"></script>
+  <script src="js/camera.js"></script>
+  <script src="js/projection.js"></script>
+  <script src="js/bezier.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/render.js"></script>
+</body>
+</html>
