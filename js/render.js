@@ -4,7 +4,7 @@
 
 window.addEventListener('load', main);
 
-// Projeksiyon parametreleri tek yerde dursun ki frustum ile P her zaman uyumlu kalsın
+// Projection parameters should remain in one place so that frustum and P always remain compatible
 const PROJ = { NEAR: 0.1, FAR: 100 };
 
 function main() {
